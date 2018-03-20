@@ -217,28 +217,7 @@ public class OpenGLChartsRegion extends JPanel {
 				columnCount = getWidth()/tileWidth;
 				rowCount    =  getHeight()/tileHeight;
 				tilesYoffset = canvasHeight - (tileHeight * rowCount);
-				// draw every tile
-				for(int column = 0; column < columnCount; column++) {
-					for(int row = 0; row < rowCount; row++) {
-						
-						gl.glColor4fv(Theme.tileShadowColor, 0);
-						gl.glBegin(GL2.GL_QUADS);
-							gl.glVertex2f(tileWidth * column       + Theme.tilePadding + Theme.tileShadowOffset, tilesYoffset + tileHeight * row       + Theme.tilePadding - Theme.tileShadowOffset);
-							gl.glVertex2f(tileWidth * column       + Theme.tilePadding + Theme.tileShadowOffset, tilesYoffset + tileHeight * (row + 1) - Theme.tilePadding - Theme.tileShadowOffset);
-							gl.glVertex2f(tileWidth * (column + 1) - Theme.tilePadding + Theme.tileShadowOffset, tilesYoffset + tileHeight * (row + 1) - Theme.tilePadding - Theme.tileShadowOffset);
-							gl.glVertex2f(tileWidth * (column + 1) - Theme.tilePadding + Theme.tileShadowOffset, tilesYoffset + tileHeight * row       + Theme.tilePadding - Theme.tileShadowOffset);
-						gl.glEnd();
-						
-						gl.glColor4fv(Theme.tileColor, 0);
-						gl.glBegin(GL2.GL_QUADS);
-							gl.glVertex2f(tileWidth * column       + Theme.tilePadding, tilesYoffset + tileHeight * row       + Theme.tilePadding);
-							gl.glVertex2f(tileWidth * column       + Theme.tilePadding, tilesYoffset + tileHeight * (row + 1) - Theme.tilePadding);
-							gl.glVertex2f(tileWidth * (column + 1) - Theme.tilePadding, tilesYoffset + tileHeight * (row + 1) - Theme.tilePadding);
-							gl.glVertex2f(tileWidth * (column + 1) - Theme.tilePadding, tilesYoffset + tileHeight * row       + Theme.tilePadding);
-						gl.glEnd();
-						
-					}
-				}
+
 				
 				// if there are no charts, tell the user how to add one
 				List<PositionedChart> charts = Controller.getCharts();
