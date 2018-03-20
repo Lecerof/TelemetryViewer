@@ -174,30 +174,7 @@ public class OpenGLChartsRegion extends JPanel {
 					boolean even = (time / 2000) % 2 == 0;
 					float transparency = (time % 2000) / 2000.0f;
 					float arrowTransparency = even ? transparency : 1 - transparency;
-					
-					// draw an arrow above the "Open Layout" button
-					float xCenterOfOpenLayoutButton = controlsRegion.getOpenLayoutButtonLocation();
-					float xOpenLayoutArrowLeft = xCenterOfOpenLayoutButton - (arrowWidth / 2);
-					float xOpenLayoutArrowRight = xCenterOfOpenLayoutButton + (arrowWidth / 2);
-					float yOpenLayoutArrowBottom = arrowYoffset;
-					float yOpenLayoutArrowTop = yOpenLayoutArrowBottom + arrowHeight;
-					float yOpenLayoutArrowMiddle = yOpenLayoutArrowTop - arrowStemHeight;
-					float xOpenLayoutArrowMiddle = xOpenLayoutArrowLeft + (arrowWidth / 2);
-					float xOpenLayoutArrowStemLeft = xOpenLayoutArrowMiddle - (arrowStemWidth / 2);
-					float xOpenLayoutArrowStemRight = xOpenLayoutArrowMiddle + (arrowStemWidth / 2);
-					
-					gl.glColor4f(1, 0, 0, arrowTransparency);
-					gl.glBegin(GL2.GL_TRIANGLES);
-						gl.glVertex2f(xOpenLayoutArrowMiddle, yOpenLayoutArrowBottom);
-						gl.glVertex2f(xOpenLayoutArrowLeft,   yOpenLayoutArrowMiddle);
-						gl.glVertex2f(xOpenLayoutArrowRight,  yOpenLayoutArrowMiddle);
-					gl.glEnd();
-					gl.glBegin(GL2.GL_QUADS);
-						gl.glVertex2f(xOpenLayoutArrowStemLeft,  yOpenLayoutArrowMiddle);
-						gl.glVertex2f(xOpenLayoutArrowStemLeft,  yOpenLayoutArrowTop);
-						gl.glVertex2f(xOpenLayoutArrowStemRight, yOpenLayoutArrowTop);
-						gl.glVertex2f(xOpenLayoutArrowStemRight, yOpenLayoutArrowMiddle);
-					gl.glEnd();
+				
 					
 					// draw an arrow above the "Connect" button
 					float xCenterOfConnectButton = controlsRegion.getConnectButtonLocation();
