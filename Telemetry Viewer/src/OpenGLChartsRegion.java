@@ -162,43 +162,6 @@ public class OpenGLChartsRegion extends JPanel {
 					FontUtils.drawXaxisText(message, (int) xMessageLeft, (int) yMessageBottom);
 					FontUtils.drawQueuedText(gl, canvasWidth, canvasHeight);
 					
-					// arrow settings
-					float arrowHeight = 50 * Controller.getDisplayScalingFactor();
-					float arrowWidth = arrowHeight * 0.6f;
-					float arrowStemWidth = arrowWidth / 3;
-					float arrowStemHeight = arrowHeight * 0.65f;
-					float arrowYoffset = arrowHeight / 6;
-					
-					// arrow transparency fades in and out once per 2 seconds
-					long time = System.currentTimeMillis();
-					boolean even = (time / 2000) % 2 == 0;
-					float transparency = (time % 2000) / 2000.0f;
-					float arrowTransparency = even ? transparency : 1 - transparency;
-				
-					
-					// draw an arrow above the "Connect" button
-					float xCenterOfConnectButton = controlsRegion.getConnectButtonLocation();
-					float xConnectArrowLeft = xCenterOfConnectButton - (arrowWidth / 2);
-					float xConnectArrowRight = xCenterOfConnectButton + (arrowWidth / 2);
-					float yConnectArrowBottom = arrowYoffset;
-					float yConnectArrowTop = yConnectArrowBottom + arrowHeight;
-					float yConnectArrowMiddle = yConnectArrowTop - arrowStemHeight;
-					float xConnectArrowMiddle = xConnectArrowLeft + (arrowWidth / 2);
-					float xConnectArrowStemLeft = xConnectArrowMiddle - (arrowStemWidth / 2);
-					float xConnectArrowStemRight = xConnectArrowMiddle + (arrowStemWidth / 2);
-					
-					gl.glColor4f(1, 0, 0, arrowTransparency);
-					gl.glBegin(GL2.GL_TRIANGLES);
-						gl.glVertex2f(xConnectArrowMiddle, yConnectArrowBottom);
-						gl.glVertex2f(xConnectArrowLeft,   yConnectArrowMiddle);
-						gl.glVertex2f(xConnectArrowRight,  yConnectArrowMiddle);
-					gl.glEnd();
-					gl.glBegin(GL2.GL_QUADS);
-						gl.glVertex2f(xConnectArrowStemLeft,  yConnectArrowMiddle);
-						gl.glVertex2f(xConnectArrowStemLeft,  yConnectArrowTop);
-						gl.glVertex2f(xConnectArrowStemRight, yConnectArrowTop);
-						gl.glVertex2f(xConnectArrowStemRight, yConnectArrowMiddle);
-					gl.glEnd();
 					
 					return;
 					
