@@ -372,7 +372,7 @@ public class CsvPacket implements Packet {
 			});
 			
 			// user specifies the name of a field
-			nameTextfield = new JTextField("", 15);
+			nameTextfield = new JTextField("", 10);
 			nameTextfield.addActionListener(pressEnterToAddRow);
 			nameTextfield.addFocusListener(new FocusListener() {
 				@Override public void focusLost(FocusEvent e) {
@@ -395,7 +395,7 @@ public class CsvPacket implements Packet {
 			});
 			
 			// user specifies the unit of a field
-			unitTextfield = new JTextField("", 15);
+			unitTextfield = new JTextField("", 10);
 			unitTextfield.addActionListener(pressEnterToAddRow);
 			unitTextfield.addFocusListener(new FocusListener() {
 				@Override public void focusLost(FocusEvent arg0) {
@@ -516,30 +516,30 @@ public class CsvPacket implements Packet {
 					}
 				}
 			});
-			
+			int vertSpacing = 10;
 			JPanel dataEntryPanel = new JPanel();
-			dataEntryPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
+			//dataEntryPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
 			dataEntryPanel.add(new JLabel("Column Number"));
 			dataEntryPanel.add(columnTextfield);
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(vertSpacing));
 			dataEntryPanel.add(new JLabel("Name"));
 			dataEntryPanel.add(nameTextfield);
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(vertSpacing));
 			dataEntryPanel.add(new JLabel("Color"));
 			dataEntryPanel.add(colorButton);
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(vertSpacing));
 			dataEntryPanel.add(new JLabel("Unit"));
 			dataEntryPanel.add(unitTextfield);
-			dataEntryPanel.add(Box.createHorizontalStrut(80));
+			//dataEntryPanel.add(Box.createHorizontalStrut(vertSpacing));
 			dataEntryPanel.add(conversionFactorAtextfield);
 			dataEntryPanel.add(new JLabel(" LSBs = "));
 			dataEntryPanel.add(conversionFactorBtextfield);
-			dataEntryPanel.add(unitLabel);
-			dataEntryPanel.add(Box.createHorizontalStrut(80));
+			//dataEntryPanel.add(unitLabel);
+			dataEntryPanel.add(Box.createHorizontalStrut(vertSpacing));
 			dataEntryPanel.add(addButton);		
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(vertSpacing));
 			dataEntryPanel.add(resetButton);
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(vertSpacing));
 			dataEntryPanel.add(doneButton);
 			
 			dataStructureTable = new JTable(new AbstractTableModel() {
@@ -585,7 +585,7 @@ public class CsvPacket implements Packet {
 			add(exampleCodePane, BorderLayout.SOUTH);
 			
 			pack();
-			setMinimumSize(new Dimension(getPreferredSize().width, 32 * (int) (getFontMetrics(arduinoCode.getFont())).getHeight()));
+			//setMinimumSize(new Dimension(getPreferredSize().width, 32 * (int) (getFontMetrics(arduinoCode.getFont())).getHeight()));
 			setLocationRelativeTo(parentWindow);
 			
 			nameTextfield.requestFocus();
