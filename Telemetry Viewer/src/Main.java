@@ -1,16 +1,30 @@
 import java.awt.BorderLayout;
+import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.UIManager;
 
 public class Main {
-
+	
+	static int globalScale;
+	
 	public static void main(String[] args) {
 		
+		
+		globalScale = 1;
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice device = env.getDefaultScreenDevice();
+	    try {
+	    	java.lang.reflect.Field field = device.getClass().getDeclaredField("scale");
+	        if (field != null) {
+	            field.setAccessible(true);
+	            Object scale = field.get(device);
+	            if (scale instanceof Integer && ((Integer) scale).intValue() == 2) {
+	                globalScale = 2;
+	            }
+	        }
+	    } catch (Exception ignore) {}
+				
 		try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch(Exception e){}
 		
 		Menubar menuBar = new Menubar();
@@ -43,6 +57,11 @@ public class Main {
 			}
 			@Override public void windowLostFocus(WindowEvent we) { }
 		});
+		
+		
+		
+		
+		
 		*/
 	}
 

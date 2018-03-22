@@ -361,7 +361,6 @@ public class ControlsRegion extends JPanel {
 	 * @return    The x value of openLayoutButton's center.
 	 */
 	public int getOpenLayoutButtonLocation() {
-		
 		return openLayoutButton.getLocation().x + (openLayoutButton.getWidth() / 2);
 		
 	}

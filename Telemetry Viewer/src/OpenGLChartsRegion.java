@@ -1,9 +1,15 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -42,6 +48,7 @@ public class OpenGLChartsRegion extends JPanel {
 	int startY;
 	int endX;
 	int endY;
+	int pixelScaleFactor = Main.globalScale;
 	
 	// time and zoom settings
 	boolean liveView;
@@ -177,8 +184,8 @@ public class OpenGLChartsRegion extends JPanel {
 					gl.glVertex2f(canvasWidth, canvasHeight);
 					gl.glVertex2f(canvasWidth, 0);
 				gl.glEnd();
-				columnCount = getWidth()/tileWidth;
-				rowCount    =  getHeight()/tileHeight;
+				columnCount = pixelScaleFactor*getWidth()/tileWidth;
+				rowCount    =  pixelScaleFactor*getHeight()/tileHeight;
 				tilesYoffset = canvasHeight - (tileHeight * rowCount);
 
 				
@@ -313,11 +320,11 @@ public class OpenGLChartsRegion extends JPanel {
 				int proposedStartX = me.getX() * columnCount / getWidth();
 				
 				int proposedStartY = me.getY() * rowCount / getHeight();
-				System.out.println("me.getX() " +me.getX()+ " me.getY() " +me.getY() + " getWidth() " +getWidth()+ " getHeight() " + getHeight());
 				
 				if(proposedStartX < columnCount && proposedStartY < rowCount && Controller.gridRegionAvailable(proposedStartX, proposedStartY, proposedStartX, proposedStartY)) {
 					startX = endX = proposedStartX;
 					startY = endY = proposedStartY;
+					
 				}
 				
 			}
@@ -535,17 +542,16 @@ public class OpenGLChartsRegion extends JPanel {
 	private boolean drawChartCloseButton(GL2 gl, int xOffset, int yOffset, int width, int height) {
 		
 		// only draw if necessary
-		boolean mouseOverChart = mouseX >= xOffset && mouseX <= xOffset + width && mouseY >= yOffset && mouseY <= yOffset + height;
-		if(!mouseOverChart)
+		if(!mouseOverChart(xOffset, yOffset, width, height))
 			return false;
 		
-		float buttonWidth = 15f * Controller.getDisplayScalingFactor();
+		float buttonWidth = 15f * pixelScaleFactor;
 		float inset = buttonWidth * 0.2f;
 		float buttonXleft = xOffset + width - buttonWidth;
 		float buttonXright = xOffset + width;
 		float buttonYtop = yOffset + height;
 		float buttonYbottom = yOffset + height - buttonWidth;
-		boolean mouseOverButton = mouseX >= buttonXleft && mouseX <= buttonXright && mouseY >= buttonYbottom && mouseY <= buttonYtop;
+		boolean mouseOverButton = mouseOverButton(buttonXleft, buttonXright, buttonYbottom, buttonYtop);
 		float[] white = new float[] {1, 1, 1, 1};
 		float[] black = new float[] {0, 0, 0, 1};
 		
@@ -593,17 +599,15 @@ public class OpenGLChartsRegion extends JPanel {
 	private boolean drawChartSettingsButton(GL2 gl, int xOffset, int yOffset, int width, int height) {
 		
 		// only draw if necessary
-		boolean mouseOverChart = mouseX >= xOffset && mouseX <= xOffset + width && mouseY >= yOffset && mouseY <= yOffset + height;
-		if(!mouseOverChart)
+		if(!mouseOverChart(xOffset, yOffset, width, height))
 			return false;
-		
-		float buttonWidth = 15f * Controller.getDisplayScalingFactor();
+		float buttonWidth = 15f * pixelScaleFactor;
 		float offset = buttonWidth + 1;
 		float buttonXleft = xOffset + width - buttonWidth - offset;
 		float buttonXright = xOffset + width - offset;
 		float buttonYtop = yOffset + height;
 		float buttonYbottom = yOffset + height - buttonWidth;
-		boolean mouseOverButton = mouseX >= buttonXleft && mouseX <= buttonXright && mouseY >= buttonYbottom && mouseY <= buttonYtop;
+		boolean mouseOverButton = mouseOverButton(buttonXleft, buttonXright, buttonYbottom, buttonYtop);
 		float[] white = new float[] {1, 1, 1, 1};
 		float[] black = new float[] {0, 0, 0, 1};
 		
@@ -656,5 +660,19 @@ public class OpenGLChartsRegion extends JPanel {
 		return mouseOverButton;
 		
 	}
+	
+	private boolean mouseOverChart(int xOffset, int yOffset, int width, int height) {
+		return 	mouseX >= xOffset/pixelScaleFactor && 
+				mouseX <= xOffset/pixelScaleFactor + width/pixelScaleFactor && 
+				mouseY >= yOffset/pixelScaleFactor && 
+				mouseY <= yOffset/pixelScaleFactor + height/pixelScaleFactor;
+	}
+	private boolean mouseOverButton(float buttonXleft, float buttonXright, float buttonYbottom, float buttonYtop) {
+		return 	mouseX >= buttonXleft/pixelScaleFactor && 
+				mouseX <= buttonXright/pixelScaleFactor && 
+				mouseY+2*pixelScaleFactor >= buttonYbottom/pixelScaleFactor && 
+				mouseY+2*pixelScaleFactor <= buttonYtop/pixelScaleFactor;
+	}
+	
 	
 }
