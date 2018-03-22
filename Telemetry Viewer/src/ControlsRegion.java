@@ -317,24 +317,7 @@ public class ControlsRegion extends JPanel {
 		
 		// show the components
 		
-		//add(openLayoutButton);
-		//add(Box.createHorizontalStrut(5));
-		//add(saveLayoutButton);
-		//add(Box.createHorizontalStrut(5));
-		/*add(exportCsvLogButton);
-		add(Box.createHorizontalStrut(5));
-		add(resetButton);
-		add(Box.createHorizontalStrut(5));
-		add(helpButton);
-		add(Box.createHorizontalStrut(5));
-		add(Box.createHorizontalGlue());
-		add(new JLabel("Grid size:"));
-		add(Box.createHorizontalStrut(5));
-		add(columnsTextfield);
-		add(Box.createHorizontalStrut(5));
-		add(new JLabel("x"));
-		add(Box.createHorizontalStrut(5));
-		add(rowsTextfield);*/
+
 		add(Box.createHorizontalGlue());
 		add(Box.createHorizontalStrut(5));
 		add(new JLabel("Sample Rate (Hz)"));

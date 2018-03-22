@@ -41,8 +41,8 @@ public class Main {
 		window.add(chartsRegion, BorderLayout.CENTER);
 		window.add(controlsRegion, BorderLayout.SOUTH);
 		
-		//window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		window.setSize( (int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width * 0.6), (int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height * 0.6) );
+		window.setSize( (int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width * 0.6), 
+						(int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height * 0.6));
 		window.setLocationRelativeTo(null);
 		
 		window.setMinimumSize(window.getPreferredSize());

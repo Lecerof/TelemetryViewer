@@ -76,7 +76,7 @@ public class Menubar extends JPanel {
 		});
 		
 		
-		savelayout.setEnabled(false);
+		//savelayout.setEnabled(false);
 		savelayout.addActionListener(event -> {
 			JFileChooser saveFile = new JFileChooser();
 			if(saveFile.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
