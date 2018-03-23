@@ -29,6 +29,8 @@ public class OpenGLChartsRegion extends JPanel {
 	Animator animator;
 	int canvasWidth;
 	int canvasHeight;
+	int defaultChartX;
+	int defaultChartY;
 	
 	// grid size
 	int columnCount;
@@ -65,6 +67,8 @@ public class OpenGLChartsRegion extends JPanel {
 		tileWidth   = 50;
 		tileHeight  = 50;
 		
+		defaultChartX = 4;
+		defaultChartY = 4;
 		
 		startX  = -1;
 		startY  = -1;
@@ -345,10 +349,13 @@ public class OpenGLChartsRegion extends JPanel {
 				if ( (startX == endX) || (startY == endY) ) {
 					x1 = startX;
 					y1 = startY;
-					x2 = (startX == endX) ? endX + 4 : endX;
-					y2 = (startY == endY) ? endY + 4 : endY;
-					if (!Controller.gridRegionAvailable(x1, y1, x2, y2))
+					x2 = (startX == endX) ? endX + defaultChartX : endX;
+					y2 = (startY == endY) ? endY + defaultChartY : endY;
+					if (!Controller.gridRegionAvailable(x1, y1, x2, y2)) {
+						startX = startY = -1;
+						endX   = endY   = -1;
 						return;
+					}
 				} else {
 					x1 = startX;
 					y1 = startY;
@@ -677,6 +684,13 @@ public class OpenGLChartsRegion extends JPanel {
 				mouseX <= buttonXright/pixelScaleFactor && 
 				mouseY+2*pixelScaleFactor >= buttonYbottom/pixelScaleFactor && 
 				mouseY+2*pixelScaleFactor <= buttonYtop/pixelScaleFactor;
+	}
+	
+	public void setDefaultChartX(int a) {
+		defaultChartX = a;
+	}
+	public void setDefaultChartY(int a) {
+		defaultChartY = a;
 	}
 	
 	

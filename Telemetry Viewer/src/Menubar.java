@@ -1,4 +1,10 @@
+import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
@@ -13,6 +19,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
@@ -23,6 +30,7 @@ public class Menubar extends JPanel {
 	JMenu fileMenu;
 	JMenu helpMenu;
 	JMenu viewMenu;
+	JMenu settingMenu;
 	
 	JMenuItem open;
 	JMenu save;
@@ -35,16 +43,21 @@ public class Menubar extends JPanel {
 	
 	JMenuItem help;
 	
+	JMenu defaultChartSize;
+	JSlider defaultChartX;
+	JSlider defaultChartY;
 	
 	public Menubar() {
 		menubar = new JMenuBar();
 		fileMenu = new JMenu("File");
 		viewMenu = new JMenu("View");
 		helpMenu = new JMenu("Help");
+		settingMenu = new JMenu("Settings");
 		
 		menubar.add(fileMenu);
 		menubar.add(viewMenu);
 		menubar.add(helpMenu);
+		menubar.add(settingMenu);
 		
 		
 		save = new JMenu("Save");
@@ -66,6 +79,45 @@ public class Menubar extends JPanel {
 		
 		help = new JMenuItem("Help");
 		helpMenu.add(help);
+		
+		defaultChartSize = new JMenu("Default chartsize");
+		settingMenu.add(defaultChartSize);
+		JPanel sliderPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		defaultChartX = new JSlider(1,9,4);
+		defaultChartX.createStandardLabels(1,1);
+		defaultChartX.setMinorTickSpacing(1);
+		defaultChartX.setMajorTickSpacing(4);
+		defaultChartX.setFont(new Font("Serif", Font.PLAIN, 10));
+		defaultChartX.setPaintLabels(true);
+		defaultChartX.setPaintTicks(true);
+		defaultChartX.setPreferredSize(new Dimension(100,40));
+		defaultChartX.setSnapToTicks(true);
+		JLabel sliderLabelX = new JLabel("  X: ", JLabel.LEFT);
+        sliderLabelX.setAlignmentX(Component.LEFT_ALIGNMENT);
+        sliderPanel.add(sliderLabelX);
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        sliderPanel.add(defaultChartX,c);
+        
+		defaultChartY = new JSlider(1,9,4);
+		defaultChartY.createStandardLabels(1,1);
+		defaultChartY.setMinorTickSpacing(1);
+		defaultChartY.setMajorTickSpacing(4);
+		defaultChartY.setFont(new Font("Serif", Font.PLAIN, 10));
+		defaultChartY.setPaintLabels(true);
+		defaultChartY.setPaintTicks(true);
+		defaultChartY.setPreferredSize(new Dimension(100,40));
+		defaultChartY.setSnapToTicks(true);
+		JLabel sliderLabelY = new JLabel("  Y: ", JLabel.LEFT);
+        sliderLabelY.setAlignmentX(Component.LEFT_ALIGNMENT);
+        sliderPanel.add(sliderLabelY);
+        sliderPanel.add(defaultChartY);
+        
+        defaultChartSize.add(sliderPanel);
+		
+        
+        
 		
 		open.addActionListener(event -> {
 			JFileChooser inputFile = new JFileChooser();
@@ -102,7 +154,9 @@ public class Menubar extends JPanel {
 		
 		reset.addActionListener(event -> Controller.removeAllCharts());
 		
-		
+		defaultChartSize.addActionListener(event -> {
+			
+		});
 		
 		
 		help.addActionListener(event -> {
