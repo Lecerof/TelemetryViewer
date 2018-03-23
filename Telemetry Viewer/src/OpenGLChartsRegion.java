@@ -29,8 +29,8 @@ public class OpenGLChartsRegion extends JPanel {
 	Animator animator;
 	int canvasWidth;
 	int canvasHeight;
-	int defaultChartX;
-	int defaultChartY;
+	static int defaultChartX;
+	static int defaultChartY;
 	
 	// grid size
 	int columnCount;
@@ -686,10 +686,10 @@ public class OpenGLChartsRegion extends JPanel {
 				mouseY+2*pixelScaleFactor <= buttonYtop/pixelScaleFactor;
 	}
 	
-	public void setDefaultChartX(int a) {
+	public static void setDefaultChartX(int a) {
 		defaultChartX = a;
 	}
-	public void setDefaultChartY(int a) {
+	public static void setDefaultChartY(int a) {
 		defaultChartY = a;
 	}
 	

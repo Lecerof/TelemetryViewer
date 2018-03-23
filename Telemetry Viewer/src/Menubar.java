@@ -85,7 +85,11 @@ public class Menubar extends JPanel {
 		JPanel sliderPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		defaultChartX = new JSlider(1,9,4);
+		int min = 1; int max = 17; int initX = 7; int initY = 4;
+		OpenGLChartsRegion.setDefaultChartX(initX);
+		OpenGLChartsRegion.setDefaultChartY(initY);
+		
+		defaultChartX = new JSlider(min,max,initX);
 		defaultChartX.createStandardLabels(1,1);
 		defaultChartX.setMinorTickSpacing(1);
 		defaultChartX.setMajorTickSpacing(4);
@@ -100,7 +104,7 @@ public class Menubar extends JPanel {
         c.gridwidth = GridBagConstraints.REMAINDER;
         sliderPanel.add(defaultChartX,c);
         
-		defaultChartY = new JSlider(1,9,4);
+		defaultChartY = new JSlider(min,max,initY);
 		defaultChartY.createStandardLabels(1,1);
 		defaultChartY.setMinorTickSpacing(1);
 		defaultChartY.setMajorTickSpacing(4);
@@ -117,7 +121,12 @@ public class Menubar extends JPanel {
         defaultChartSize.add(sliderPanel);
 		
         
-        
+        defaultChartX.addChangeListener(event -> {
+        		OpenGLChartsRegion.setDefaultChartX(defaultChartX.getValue());
+        });
+        defaultChartY.addChangeListener(event -> {
+    			OpenGLChartsRegion.setDefaultChartY(defaultChartY.getValue());
+        });
 		
 		open.addActionListener(event -> {
 			JFileChooser inputFile = new JFileChooser();
