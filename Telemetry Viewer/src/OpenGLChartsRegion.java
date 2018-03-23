@@ -190,7 +190,7 @@ public class OpenGLChartsRegion extends JPanel {
 					liveView = true;
 					
 					// draw the text
-					String message = "Add a chart by clicking on a tile, or by clicking-and-dragging across multiple tiles.";
+					String message = "Add a chart by clicking once, or by clicking-and-dragging across an empty area";
 					float messageWidth = FontUtils.xAxisTextWidth(message);
 					float messageHeight = FontUtils.xAxisTextHeight;
 					float xMessageLeft = (canvasWidth / 2.0f) - (messageWidth / 2.0f);
@@ -340,10 +340,21 @@ public class OpenGLChartsRegion extends JPanel {
 					endY = proposedEndY;
 				}
 				
-				int x1 = startX;
-				int y1 = startY;
-				int x2 = endX;
-				int y2 = endY;
+				
+				int x1, y1, x2, y2;
+				if ( (startX == endX) || (startY == endY) ) {
+					x1 = startX;
+					y1 = startY;
+					x2 = (startX == endX) ? endX + 4 : endX;
+					y2 = (startY == endY) ? endY + 4 : endY;
+					if (!Controller.gridRegionAvailable(x1, y1, x2, y2))
+						return;
+				} else {
+					x1 = startX;
+					y1 = startY;
+					x2 = endX;
+					y2 = endY;
+				}
 				
 				startX = startY = -1;
 				endX   = endY   = -1;

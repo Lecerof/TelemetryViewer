@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
@@ -10,7 +12,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		
+		System.out.println(System.getProperty("user.dir"));
+
 		globalScale = 1;
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice device = env.getDefaultScreenDevice();
