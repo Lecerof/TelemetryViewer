@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
@@ -12,7 +11,6 @@ import java.net.URI;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,7 +18,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class Menubar extends JPanel {
@@ -76,6 +73,8 @@ public class Menubar extends JPanel {
 		
 		gridsize = new JMenuItem("Grid size");
 		viewMenu.add(gridsize);
+		gridsize.setEnabled(false);
+
 		
 		help = new JMenuItem("Help");
 		helpMenu.add(help);

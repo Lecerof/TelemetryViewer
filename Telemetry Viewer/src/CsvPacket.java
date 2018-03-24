@@ -516,7 +516,7 @@ public class CsvPacket implements Packet {
 					}
 				}
 			});
-			int vertSpacing = 10;
+			int vertSpacing = 20;
 			JPanel dataEntryPanel = new JPanel();
 			//dataEntryPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
 			dataEntryPanel.add(new JLabel("Column Number"));

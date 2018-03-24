@@ -30,12 +30,12 @@ public class Main {
 				
 		try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch(Exception e){}
 		
-		Menubar menuBar = new Menubar();
+		
 		
 		JFrame window = new JFrame("Telemetry Viewer v0.4");
 		ControlsRegion controlsRegion = new ControlsRegion();
 		OpenGLChartsRegion chartsRegion = new OpenGLChartsRegion(controlsRegion);
-		
+		Menubar menuBar = new Menubar();
 		
 		
 		

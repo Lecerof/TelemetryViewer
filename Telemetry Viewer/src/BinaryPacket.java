@@ -673,6 +673,7 @@ public class BinaryPacket implements Packet {
 
 			// user specifies the processor of a field (the processor converts raw bytes into numbers, or evaluates checksums) 
 			JComboBox<Object> processorCombobox = new JComboBox<Object>();
+			processorCombobox.setPreferredSize(new Dimension(150,25));
 			for(BinaryFieldProcessor processor : BinaryPacket.getBinaryFieldProcessors())
 				processorCombobox.addItem(processor);
 			for(BinaryChecksumProcessor processor : BinaryPacket.getBinaryChecksumProcessors())
@@ -701,7 +702,7 @@ public class BinaryPacket implements Packet {
 			});
 			
 			// user specifies the name of a field
-			nameTextfield = new JTextField("", 15);
+			nameTextfield = new JTextField("", 10);
 			nameTextfield.addActionListener(pressEnterToAddRow);
 			nameTextfield.addFocusListener(new FocusListener() {
 				@Override public void focusLost(FocusEvent e) {
@@ -724,7 +725,7 @@ public class BinaryPacket implements Packet {
 			});
 			
 			// user specifies the unit of a field
-			unitTextfield = new JTextField("", 15);
+			unitTextfield = new JTextField("", 10);
 			unitTextfield.addActionListener(pressEnterToAddRow);
 			unitTextfield.addFocusListener(new FocusListener() {
 				@Override public void focusLost(FocusEvent arg0) {
@@ -779,11 +780,11 @@ public class BinaryPacket implements Packet {
 				}
 			});
 			
-			unitLabel = new JLabel("_______________");
-			unitLabel.setMinimumSize(unitLabel.getPreferredSize());
-			unitLabel.setPreferredSize(unitLabel.getPreferredSize());
-			unitLabel.setHorizontalAlignment(JLabel.LEFT);
-			unitLabel.setText("");		
+			//unitLabel = new JLabel("_______________");
+			//unitLabel.setMinimumSize(unitLabel.getPreferredSize());
+			//unitLabel.setPreferredSize(unitLabel.getPreferredSize());
+			//unitLabel.setHorizontalAlignment(JLabel.LEFT);
+			//unitLabel.setText("");		
 			
 			// user clicks Add to insert a new field into the data structure if possible
 			addButton = new JButton("Add");
@@ -903,27 +904,27 @@ public class BinaryPacket implements Packet {
 			dataEntryPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
 			dataEntryPanel.add(new JLabel("Byte Offset"));
 			dataEntryPanel.add(offsetTextfield);
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(20));
 			dataEntryPanel.add(processorCombobox);
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(20));
 			dataEntryPanel.add(new JLabel("Name"));
 			dataEntryPanel.add(nameTextfield);
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(20));
 			dataEntryPanel.add(new JLabel("Color"));
 			dataEntryPanel.add(colorButton);
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(20));
 			dataEntryPanel.add(new JLabel("Unit"));
 			dataEntryPanel.add(unitTextfield);
-			dataEntryPanel.add(Box.createHorizontalStrut(80));
+			//dataEntryPanel.add(Box.createHorizontalStrut(80));
 			dataEntryPanel.add(conversionFactorAtextfield);
 			dataEntryPanel.add(new JLabel(" LSBs = "));
 			dataEntryPanel.add(conversionFactorBtextfield);
-			dataEntryPanel.add(unitLabel);
-			dataEntryPanel.add(Box.createHorizontalStrut(80));
+			//dataEntryPanel.add(unitLabel);
+			dataEntryPanel.add(Box.createHorizontalStrut(20));
 			dataEntryPanel.add(addButton);		
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(20));
 			dataEntryPanel.add(resetButton);
-			dataEntryPanel.add(Box.createHorizontalStrut(20));
+			//dataEntryPanel.add(Box.createHorizontalStrut(20));
 			dataEntryPanel.add(doneButton);
 			
 			dataStructureTable = new JTable(new AbstractTableModel() {
@@ -960,7 +961,7 @@ public class BinaryPacket implements Packet {
 			add(tablePanel, BorderLayout.CENTER);
 			
 			pack();
-			setMinimumSize(new Dimension(getPreferredSize().width, 500));
+			//setMinimumSize(new Dimension(getPreferredSize().width, 500));
 			setLocationRelativeTo(parentWindow);
 			
 			nameTextfield.requestFocus();
