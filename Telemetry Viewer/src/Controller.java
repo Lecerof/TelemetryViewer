@@ -611,10 +611,11 @@ public class Controller {
 				
 				int checksumProcessorIndex = -1;
 				BinaryChecksumProcessor[] processors = BinaryPacket.getBinaryChecksumProcessors();
-				for(int i = 0; i < processors.length; i++)
-					if(packet.checksumProcessor.toString().equals(processors[i].toString()))
-						checksumProcessorIndex = i;
-				
+				for(int i = 0; i < processors.length; i++) {
+					if(packet.checksumProcessor != null)
+						if(packet.checksumProcessor.toString().equals(processors[i].toString()))
+							checksumProcessorIndex = i;
+				}
 				outputFile.println("");
 				outputFile.println("Checksum:");
 				outputFile.println("");
