@@ -936,7 +936,6 @@ public class Controller implements Serializable {
 	    				fileHistory[i] = null;
 	    			}
 	    			pcs.firePropertyChange("updateHistory " + i, tmp, fileHistory[i]);
-	    			System.out.println("at fireproperty change event");
 	    		}
 	    }
 	}

@@ -93,11 +93,16 @@ public class Menubar extends JPanel implements PropertyChangeListener {
 		openHistory3 = new JMenuItem("");
 		openHistory4 = new JMenuItem("");
 		
+		openHistory1.addActionListener(event -> Controller.openLayout(Controller.fileHistory[0].getPath()));
+		openHistory2.addActionListener(event -> Controller.openLayout(Controller.fileHistory[1].getPath()));
+		openHistory3.addActionListener(event -> Controller.openLayout(Controller.fileHistory[2].getPath()));
+		openHistory4.addActionListener(event -> Controller.openLayout(Controller.fileHistory[3].getPath()));
+		
+		
 		Controller.pcs.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				String event = evt.getPropertyName();
-				System.out.println(event);
 				if (event.startsWith("updateHistory")) {
 					switch (Integer.parseInt(event.substring(event.length()-1,event.length()))) {
 						case 0:
@@ -139,35 +144,12 @@ public class Menubar extends JPanel implements PropertyChangeListener {
 							break;
 					}
 				
-				/*
-				if (Controller.fileHistory[0] != null) {
-					openHistory1 = new JMenuItem(Controller.fileHistory[0].getName());
-					openRecent.add(openHistory1);
-				}
-				if (Controller.fileHistory[1] != null) {
-					openHistory2 = new JMenuItem(Controller.fileHistory[1].getName());
-					openRecent.add(openHistory2);
-				}
-				if (Controller.fileHistory[2] != null) {
-					openHistory3 = new JMenuItem(Controller.fileHistory[2].getName());
-					openRecent.add(openHistory3);
-				}
-				if (Controller.fileHistory[3] != null) {
-					openHistory4 = new JMenuItem(Controller.fileHistory[3].getName());
-					openRecent.add(openHistory4);
-				}*/
 			}
 			}
 		});
 		
 		Controller.updateHistyoryList();
 
-		//String name1 = Controller.fileHistory[0] == null ? null : new File(Controller.fileHistory[0]).getName();
-		//String name2 = Controller.fileHistory[1] == null ? null : new File(Controller.fileHistory[1]).getName();
-		//String name3 = Controller.fileHistory[2] == null ? null : new File(Controller.fileHistory[2]).getName();
-		//String name4 = Controller.fileHistory[3] == null ? null : new File(Controller.fileHistory[3]).getName();
-		
-		
 		
 		
 		gridsize = new JMenuItem("Grid size");
