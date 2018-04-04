@@ -669,9 +669,10 @@ public class Controller implements Serializable {
 						outputFile.println("\t" + line);
 				
 			}
+			
+			// Save the path to the file in the history
 			saveHistory(outputFilePath);
 			outputFile.close();
-			cleanHistory();
 			
 		} catch (IOException e) {
 			
@@ -822,24 +823,27 @@ public class Controller implements Serializable {
 			JOptionPane.showMessageDialog(null, "Error while parsing the file:\n" + ae.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		
 		}
-		
+		// Everything went fine, store the path to the file you most recently opened
 		saveHistory(inputFilePath);
 		
 	}
 	
+	/**
+	 * Saves the path together with a timestamp in a file inside the folders of the program
+	 * This function is used for tracking recently opened and saved files
+	 * @param path an absolute filepath as String
+	 */
 	
 	public static void saveHistory(String path) {
-		// 1) create a java calendar instance
+		// Extract the time
 		Calendar calendar = Calendar.getInstance();
-
-		// 2) get a java.util.Date from the calendar instance.
-//		    this date will represent the current instant, or "now".
 		java.util.Date now = calendar.getTime();
-
-		// 3) a java current time (now) instance
 		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+		
+		// Create the path to related to where to store the metadata/history
 		String savehistory = System.getProperty("user.dir") + "/savehistory";
 		File directory = new File(savehistory);
+		// If the directory or file does not extist, create them
 	    if (! directory.exists())
 	        directory.mkdir();
 	    File history = new File(savehistory + "/metadata");
@@ -850,25 +854,38 @@ public class Controller implements Serializable {
 				System.out.println("Something went wrong trying to create history file");
 			}
 	    }
+	    // Write the path to the file together with a timestamp
 		try {
-		    Files.write(Paths.get(history.toURI()), (currentTimestamp.toString().substring(0,19) + " " + path + "\n").getBytes(), StandardOpenOption.APPEND);
+		    Files.write(Paths.get(history.toURI()), 
+		    		(currentTimestamp.toString().substring(0,19) + " " + path + "\n").getBytes(), 
+		    		StandardOpenOption.APPEND);
 		}catch (IOException e) {}
+		// Clean up the history, removing duplicates and all files older than the 4 most 
+		// recently saved/opened
 		cleanHistory();
+		// Update the static variable fileHistory in the controller
 		updateHistyoryList();
 	}
 	
+	/**
+	 * Removes path duplicates and older paths to files
+	 */
 	public static void cleanHistory() {
 		
 		String savehistory = System.getProperty("user.dir") + "/savehistory";
 	    File history = new File(savehistory + "/metadata");
 	    List<String> historyList;
 	    Set<String> duplicates = new HashSet<String>();
+	    
 		try {
 			historyList = Files.readAllLines(history.toPath(), StandardCharsets.UTF_8);
 		} catch (IOException e) {return;}
+		
 		Collections.sort(historyList);
 		Collections.reverse(historyList);
 		List<String> historyListCpy = new ArrayList<String>(historyList);
+		// Check if the path is unique or not. Only saves the latest unique versions of the
+		// path and throws away the rest
 		for (String e: historyList) {
 			String str = e.substring(20, e.length());
 			if (!duplicates.contains(str))
@@ -876,6 +893,7 @@ public class Controller implements Serializable {
 			else
 				historyListCpy.remove(e);
 		}
+		// if there are less than unique paths, store them all
 		if (historyListCpy.size() < 5) {
 			try ( BufferedWriter bw = 
 					new BufferedWriter (new FileWriter (history)) ) 
@@ -890,9 +908,8 @@ public class Controller implements Serializable {
 				e.printStackTrace ();
 			}
 		}
+		// Store at maximum 4 unique paths
 		else {
-			
-			
 			try ( BufferedWriter bw = 
 					new BufferedWriter (new FileWriter (history)) ) 
 			{			
@@ -907,14 +924,11 @@ public class Controller implements Serializable {
 			}
 		}
 	}
-		
 			
-	    	
-	    	
-				
-			
-			
-	
+	/**
+	 * Updates the static variable historyList from the file where the program stores paths 
+	 * to recently opened and saved files
+	 */
 	public static void updateHistyoryList() {
 		String savehistory = System.getProperty("user.dir") + "/savehistory";
 	    File history = new File(savehistory + "/metadata");
