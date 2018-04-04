@@ -12,8 +12,6 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		System.out.println(System.getProperty("user.dir"));
-
 		globalScale = 1;
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice device = env.getDefaultScreenDevice();

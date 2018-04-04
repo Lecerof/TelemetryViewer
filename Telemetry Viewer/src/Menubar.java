@@ -6,7 +6,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,9 +24,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
 
 @SuppressWarnings("serial")
-public class Menubar extends JPanel {
+public class Menubar extends JPanel implements PropertyChangeListener {
 
 	
 	public JMenuBar menubar;
@@ -29,10 +36,17 @@ public class Menubar extends JPanel {
 	JMenu viewMenu;
 	JMenu settingMenu;
 	
-	JMenuItem open;
+	JMenu openRecent;
 	JMenu save;
+	JMenuItem open;
 	JMenuItem savelayout;
 	JMenuItem savecsvlog;
+	JMenuItem openFile;
+	JMenuItem openHistory1;
+	JMenuItem openHistory2;
+	JMenuItem openHistory3;
+	JMenuItem openHistory4;
+		
 	
 	JMenuItem reset;
 	
@@ -63,12 +77,97 @@ public class Menubar extends JPanel {
 		save.add(savelayout);
 		save.add(savecsvlog);
 		
-		open = new JMenuItem("Open Layout");
+		open = new JMenuItem("Open");
+		openRecent = new JMenu("Open recent");
+		openFile = new JMenuItem("Open Layout from file");
+		
+		
 		reset = new JMenuItem("Reset");
 		
 		fileMenu.add(save);
 		fileMenu.add(open);
+		fileMenu.add(openRecent);
 		fileMenu.add(reset);
+		openHistory1 = new JMenuItem("");
+		openHistory2 = new JMenuItem("");
+		openHistory3 = new JMenuItem("");
+		openHistory4 = new JMenuItem("");
+		
+		Controller.pcs.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				String event = evt.getPropertyName();
+				System.out.println(event);
+				if (event.startsWith("updateHistory")) {
+					switch (Integer.parseInt(event.substring(event.length()-1,event.length()))) {
+						case 0:
+							if (evt.getNewValue() == null) {
+								openRecent.remove(openHistory1);
+								break;
+							}
+							else {
+								openHistory1.setText(((File)evt.getNewValue()).getName());
+								openRecent.add(openHistory1);
+							}
+							break;
+						case 1:
+							if (evt.getNewValue() == null) {
+								openRecent.remove(openHistory2);	
+							}
+							else {
+								openHistory2.setText(((File)evt.getNewValue()).getName());
+								openRecent.add(openHistory2);
+							}
+							break;
+						case 2:
+							if (evt.getNewValue() == null) {
+								openRecent.remove(openHistory3);	
+							}
+							else {
+								openHistory3.setText(((File)evt.getNewValue()).getName());
+								openRecent.add(openHistory3);
+							}
+							break;
+						case 3:
+							if (evt.getNewValue() == null) {
+								openRecent.remove(openHistory4);	
+							}
+							else {
+								openHistory4.setText(((File)evt.getNewValue()).getName());
+								openRecent.add(openHistory4);
+							}
+							break;
+					}
+				
+				/*
+				if (Controller.fileHistory[0] != null) {
+					openHistory1 = new JMenuItem(Controller.fileHistory[0].getName());
+					openRecent.add(openHistory1);
+				}
+				if (Controller.fileHistory[1] != null) {
+					openHistory2 = new JMenuItem(Controller.fileHistory[1].getName());
+					openRecent.add(openHistory2);
+				}
+				if (Controller.fileHistory[2] != null) {
+					openHistory3 = new JMenuItem(Controller.fileHistory[2].getName());
+					openRecent.add(openHistory3);
+				}
+				if (Controller.fileHistory[3] != null) {
+					openHistory4 = new JMenuItem(Controller.fileHistory[3].getName());
+					openRecent.add(openHistory4);
+				}*/
+			}
+			}
+		});
+		
+		Controller.updateHistyoryList();
+
+		//String name1 = Controller.fileHistory[0] == null ? null : new File(Controller.fileHistory[0]).getName();
+		//String name2 = Controller.fileHistory[1] == null ? null : new File(Controller.fileHistory[1]).getName();
+		//String name3 = Controller.fileHistory[2] == null ? null : new File(Controller.fileHistory[2]).getName();
+		//String name4 = Controller.fileHistory[3] == null ? null : new File(Controller.fileHistory[3]).getName();
+		
+		
 		
 		
 		gridsize = new JMenuItem("Grid size");
@@ -141,8 +240,13 @@ public class Menubar extends JPanel {
 			JFileChooser saveFile = new JFileChooser();
 			if(saveFile.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 				String filePath = saveFile.getSelectedFile().getAbsolutePath();
-				if(!filePath.endsWith(".txt"))
+				
+				
+			    
+				if(!filePath.endsWith(".txt")) {
 					filePath += ".txt";
+				}
+				
 				Controller.saveLayout(filePath);
 			}
 		});
@@ -207,10 +311,21 @@ public class Menubar extends JPanel {
 		
 		
 
+
 		
+		
+	}
+	
+
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println("hej");
+		System.out.println(evt.getPropertyName());
 		
 	}
 	
 	
 	
 }
+

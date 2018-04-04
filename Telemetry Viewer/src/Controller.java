@@ -1,12 +1,28 @@
 import java.awt.Color;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -15,12 +31,18 @@ import com.fazecast.jSerialComm.SerialPort;
 /**
  * Handles all non-GUI logic and manages access to the Model (the data).
  */
-public class Controller {
+public class Controller implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static List<GridChangedListener> gridChangedListeners = new ArrayList<GridChangedListener>();
 	static List<SerialPortListener>   serialPortListeners = new ArrayList<SerialPortListener>();
 	static volatile SerialPort port;
-	
+	static File[] fileHistory = {null, null, null, null};
+	public final static PropertyChangeSupport pcs = new PropertyChangeSupport(fileHistory);
+
 	/**
 	 * @return    The display scaling factor. By default, this is the percentage of 100dpi that the screen uses, rounded to an integer.
 	 */
@@ -28,6 +50,15 @@ public class Controller {
 		
 		return Model.displayScalingFactor;
 		
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener l) {
+		pcs.addPropertyChangeListener(l);		
+	}
+
+	
+	public void removePropertyChangeListener(PropertyChangeListener l) {
+		pcs.removePropertyChangeListener(l);		
 	}
 	
 	/**
@@ -642,8 +673,9 @@ public class Controller {
 						outputFile.println("\t" + line);
 				
 			}
-			
+			saveHistory(outputFilePath);
 			outputFile.close();
+			cleanHistory();
 			
 		} catch (IOException e) {
 			
@@ -795,6 +827,118 @@ public class Controller {
 		
 		}
 		
+		saveHistory(inputFilePath);
+		
+	}
+	
+	
+	public static void saveHistory(String path) {
+		// 1) create a java calendar instance
+		Calendar calendar = Calendar.getInstance();
+
+		// 2) get a java.util.Date from the calendar instance.
+//		    this date will represent the current instant, or "now".
+		java.util.Date now = calendar.getTime();
+
+		// 3) a java current time (now) instance
+		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+		String savehistory = System.getProperty("user.dir") + "/savehistory";
+		File directory = new File(savehistory);
+	    if (! directory.exists())
+	        directory.mkdir();
+	    File history = new File(savehistory + "/metadata");
+	    if (! history.exists()) {
+			try {
+				history.createNewFile();
+			} catch (IOException e) {
+				System.out.println("Something went wrong trying to create history file");
+			}
+	    }
+		try {
+		    Files.write(Paths.get(history.toURI()), (currentTimestamp.toString().substring(0,19) + " " + path + "\n").getBytes(), StandardOpenOption.APPEND);
+		}catch (IOException e) {}
+		cleanHistory();
+		updateHistyoryList();
+	}
+	
+	public static void cleanHistory() {
+		
+		String savehistory = System.getProperty("user.dir") + "/savehistory";
+	    File history = new File(savehistory + "/metadata");
+	    List<String> historyList;
+	    Set<String> duplicates = new HashSet<String>();
+		try {
+			historyList = Files.readAllLines(history.toPath(), StandardCharsets.UTF_8);
+		} catch (IOException e) {return;}
+		Collections.sort(historyList);
+		Collections.reverse(historyList);
+		List<String> historyListCpy = new ArrayList<String>(historyList);
+		for (String e: historyList) {
+			String str = e.substring(20, e.length());
+			if (!duplicates.contains(str))
+				duplicates.add(str);
+			else
+				historyListCpy.remove(e);
+		}
+		if (historyListCpy.size() < 5) {
+			try ( BufferedWriter bw = 
+					new BufferedWriter (new FileWriter (history)) ) 
+			{			
+				for (String e:historyListCpy) {
+					bw.write (e+ "\n");
+				}
+				
+				bw.close ();
+				
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+		else {
+			
+			
+			try ( BufferedWriter bw = 
+					new BufferedWriter (new FileWriter (history)) ) 
+			{			
+				for (int i = 0; i < 4; i ++) {
+					bw.write (historyListCpy.get(i)+ "\n");
+				}
+				
+				bw.close ();
+				
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+		
+			
+	    	
+	    	
+				
+			
+			
+	
+	public static void updateHistyoryList() {
+		String savehistory = System.getProperty("user.dir") + "/savehistory";
+	    File history = new File(savehistory + "/metadata");
+	    List<String> historyList;
+	    try {
+			historyList = Files.readAllLines(history.toPath(), StandardCharsets.UTF_8);
+		} catch (IOException e) {return;}
+	    for (int i = 0; i < fileHistory.length; i ++ ) {
+	    		if (i < historyList.size()) {
+	    			File tmp = fileHistory[i];
+	    			String fileString = historyList.get(i);
+	    			if (fileString.length() > 1) {
+	    				fileHistory[i] = new File((historyList.get(i)).substring(20, (historyList.get(i)).length()));
+	    			} else {
+	    				fileHistory[i] = null;
+	    			}
+	    			pcs.firePropertyChange("updateHistory " + i, tmp, fileHistory[i]);
+	    			System.out.println("at fireproperty change event");
+	    		}
+	    }
 	}
 	
 }

@@ -45,7 +45,10 @@ public class ControlsRegion extends JPanel {
 	 */
 	public ControlsRegion() {
 		
+		
 		super();
+
+		
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		
