@@ -7,7 +7,10 @@ import java.awt.event.MouseWheelListener;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import com.jogamp.opengl.GL2;
@@ -56,6 +59,7 @@ public class OpenGLChartsRegion extends JPanel {
 	int mouseY;
 	PositionedChart chartToRemoveOnClick;
 	PositionedChart chartToConfigureOnClick;
+	PositionedChart chartMouseIsOver;
 	
 	boolean serialPortConnected;
 	
@@ -86,10 +90,10 @@ public class OpenGLChartsRegion extends JPanel {
 		serialPortConnected = false;
 		
 		parentWindow = (JFrame) SwingUtilities.windowForComponent(this);
-		
+		OpenGLChartsRegion hello = this;
 		GLCanvas glCanvas = new GLCanvas(new GLCapabilities(GLProfile.get(GLProfile.GL2)));
 		glCanvas.addGLEventListener(new GLEventListener() {
-
+			
 			@Override public void init(GLAutoDrawable drawable) {
 				
 				GL2 gl = drawable.getGL().getGL2();
@@ -275,8 +279,11 @@ public class OpenGLChartsRegion extends JPanel {
 					boolean mouseOverConfigureButton = drawChartSettingsButton(gl, xOffset, yOffset, width, height);
 					if(mouseOverConfigureButton)
 						chartToConfigure = chart;
+					if (mouseOverChart(xOffset, yOffset, width, height))
+						chartMouseIsOver = chart;
 					
 				}
+				
 				chartToRemoveOnClick = chartToClose;
 				chartToConfigureOnClick = chartToConfigure;
 				
@@ -322,7 +329,24 @@ public class OpenGLChartsRegion extends JPanel {
 				if(proposedStartX < columnCount && proposedStartY < rowCount && Controller.gridRegionAvailable(proposedStartX, proposedStartY, proposedStartX, proposedStartY)) {
 					startX = endX = proposedStartX;
 					startY = endY = proposedStartY;
+					return;
 					
+				}
+				if (me.getButton() == 3) {
+					JPopupMenu pmenu = new JPopupMenu("Menu");
+					JMenuItem options = new JMenuItem("Options");
+					JMenuItem resize = new JMenuItem("Resize");
+					JMenuItem move = new JMenuItem("Move");
+					JMenuItem close = new JMenuItem("Close");
+					pmenu.add(options);
+					pmenu.add(resize);
+					pmenu.add(move);
+					pmenu.add(close);
+					
+					options.addActionListener(e -> new ConfigureChartWindow(parentWindow, chartMouseIsOver));
+					close.addActionListener(e -> Controller.removeChart(chartMouseIsOver));
+					
+					pmenu.show(hello, me.getX(), me.getY());
 				}
 				
 			}
@@ -383,6 +407,8 @@ public class OpenGLChartsRegion extends JPanel {
 			@Override public void mouseEntered(MouseEvent me) { }
 			
 		});
+
+		
 		
 		glCanvas.addMouseMotionListener(new MouseMotionListener() {
 			
