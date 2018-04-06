@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
@@ -36,6 +37,7 @@ public class AddChartWindow extends JDialog {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel windowContents = new JPanel();
+		JScrollPane datasetPane = new JScrollPane();
 		windowContents.setBorder(new EmptyBorder(10, 10, 10, 10));
 		windowContents.setLayout(new BoxLayout(windowContents, BoxLayout.Y_AXIS));
 		add(windowContents);
@@ -69,8 +71,10 @@ public class AddChartWindow extends JDialog {
 			// create the chart and show it's widgets
 			chart = Controller.createAndAddChart(chartTypeCombobox.getSelectedItem().toString(), x1, y1, x2, y2);
 			for(JPanel widget : chart.getWidgets()) {
+				
 				windowContents.add(widget != null ? widget : Box.createVerticalStrut(10));
 				windowContents.add(Box.createVerticalStrut(10));
+				
 			}
 			
 			// leave some room, then show the done and cancel buttons

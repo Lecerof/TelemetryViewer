@@ -46,7 +46,7 @@ public class ConfigureChartWindow extends JDialog {
 		windowContents.add(doneButtonPanel);
 				
 		// size and position the window
-		setResizable(false);
+		setResizable(true);
 		pack();
 		setSize((int) (getWidth() * 1.3), getHeight());
 		setLocationRelativeTo(parentWindow);
