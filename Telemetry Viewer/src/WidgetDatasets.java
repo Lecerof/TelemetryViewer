@@ -39,6 +39,7 @@ public class WidgetDatasets extends JPanel {
 		for(int i = 0; i < datasets.length; i++) {
 			
 			JCheckBox checkbox = new JCheckBox(datasets[i].name);
+			checkbox.setForeground(datasets[i].color);
 			checkbox.addActionListener(event -> notifyHandler());
 			
 			datasetsMap.put(datasets[i], checkbox);
