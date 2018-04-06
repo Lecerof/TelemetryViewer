@@ -1,7 +1,15 @@
-import java.awt.*;
-import javax.swing.*;
+import java.awt.GridLayout;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
 public class AddChartWindow extends JDialog {
@@ -29,11 +37,10 @@ public class AddChartWindow extends JDialog {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel windowContents = new JPanel();
-		JScrollPane jScrollPane = new JScrollPane(windowContents);
-
+		JScrollPane datasetPane = new JScrollPane();
 		windowContents.setBorder(new EmptyBorder(10, 10, 10, 10));
 		windowContents.setLayout(new BoxLayout(windowContents, BoxLayout.Y_AXIS));
-		//add(windowContents);
+		add(windowContents);
 		
 		JComboBox<String> chartTypeCombobox = new JComboBox<String>(Controller.getChartTypes());
 		
@@ -64,8 +71,10 @@ public class AddChartWindow extends JDialog {
 			// create the chart and show it's widgets
 			chart = Controller.createAndAddChart(chartTypeCombobox.getSelectedItem().toString(), x1, y1, x2, y2);
 			for(JPanel widget : chart.getWidgets()) {
+				
 				windowContents.add(widget != null ? widget : Box.createVerticalStrut(10));
 				windowContents.add(Box.createVerticalStrut(10));
+				
 			}
 			
 			// leave some room, then show the done and cancel buttons
@@ -75,24 +84,16 @@ public class AddChartWindow extends JDialog {
 			// redraw and resize the window
 			windowContents.revalidate();
 			windowContents.repaint();
-
-			jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-			jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-			jScrollPane.setViewportBorder(new LineBorder(Color.RED));
-			jScrollPane.getViewport().add(windowContents, null);
-			add(jScrollPane, BorderLayout.CENTER);
-
 			pack();
-			//setSize(getPreferredSize());
-			setSize((int) (getWidth() * 1.3), getHeight());
-
+			setSize(getPreferredSize());
+				
 		});
 
-		//setResizable(false);
+		setResizable(false);
 		chartTypeCombobox.getActionListeners()[0].actionPerformed(null);
 		
 		setLocationRelativeTo(parentWindow);
-		//setModal(true);
+		setModal(true);
 		setVisible(true);
 		
 	}

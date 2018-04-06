@@ -1,7 +1,12 @@
-import java.awt.*;
-import javax.swing.*;
+import java.awt.GridLayout;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
 public class ConfigureChartWindow extends JDialog {
@@ -18,11 +23,10 @@ public class ConfigureChartWindow extends JDialog {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel windowContents = new JPanel();
-		JScrollPane jScrollPane = new JScrollPane(windowContents);
-
 		windowContents.setBorder(new EmptyBorder(10, 10, 10, 10));
 		windowContents.setLayout(new BoxLayout(windowContents, BoxLayout.Y_AXIS));
-
+		add(windowContents);
+		
 		JPanel doneButtonPanel = new JPanel();
 		JButton doneButton = new JButton("Done");
 		doneButton.addActionListener(event -> dispose());
@@ -40,19 +44,14 @@ public class ConfigureChartWindow extends JDialog {
 		// leave some room, then show the done button
 		windowContents.add(Box.createVerticalStrut(40));
 		windowContents.add(doneButtonPanel);
-
-		jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		jScrollPane.setViewportBorder(new LineBorder(Color.RED));
-		jScrollPane.getViewport().add(windowContents, null);
-		add(jScrollPane, BorderLayout.CENTER);
+				
 		// size and position the window
-		//setResizable(false);
+		setResizable(true);
 		pack();
 		setSize((int) (getWidth() * 1.3), getHeight());
 		setLocationRelativeTo(parentWindow);
 		
-		//setModal(true);
+		setModal(true);
 		setVisible(true);
 		
 	}

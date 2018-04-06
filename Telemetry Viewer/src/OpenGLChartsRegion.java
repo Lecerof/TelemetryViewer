@@ -341,7 +341,9 @@ public class OpenGLChartsRegion extends JPanel {
 					pmenu.add(options);
 					pmenu.add(resize);
 					pmenu.add(move);
+					pmenu.addSeparator();
 					pmenu.add(close);
+					//pmenu.setLightWeightPopupEnabled(false);
 					
 					options.addActionListener(e -> new ConfigureChartWindow(parentWindow, chartMouseIsOver));
 					close.addActionListener(e -> Controller.removeChart(chartMouseIsOver));

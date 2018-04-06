@@ -4,9 +4,10 @@ import java.util.function.Consumer;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
-public class WidgetDataset extends JPanel {
+public class WidgetDataset extends JScrollPane {
 	
 	JComboBox<Dataset> combobox;
 	Consumer<Dataset[]> handler;
