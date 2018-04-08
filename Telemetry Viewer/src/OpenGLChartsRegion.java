@@ -191,11 +191,12 @@ public class OpenGLChartsRegion extends JPanel {
 				rowCount    =  pixelScaleFactor*getHeight()/tileHeight;
 				tilesYoffset = canvasHeight - (tileHeight * rowCount);
 				// Draw a grid over the background
+				if (Menubar.grid.getState()) {
 				drawDashedGrid(gl, canvasWidth, canvasHeight, tileWidth, 
 						tileHeight, new Point(0, tilesYoffset), 10, 5 );
 				drawFullGrid(gl, canvasWidth, canvasHeight, tileWidth *defaultChartX , tileHeight*defaultChartY, 
 						new Point(0, tilesYoffset));
-				
+				}
 				
 				
 				

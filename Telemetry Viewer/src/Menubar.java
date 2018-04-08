@@ -1,3 +1,4 @@
+import java.awt.CheckboxMenuItem;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -16,6 +17,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -50,7 +52,7 @@ public class Menubar extends JPanel implements PropertyChangeListener {
 	
 	JMenuItem reset;
 	
-	JMenuItem gridsize;
+	static JCheckBoxMenuItem grid;
 	
 	JMenuItem help;
 	
@@ -152,9 +154,8 @@ public class Menubar extends JPanel implements PropertyChangeListener {
 
 		
 		
-		gridsize = new JMenuItem("Grid size");
-		viewMenu.add(gridsize);
-		gridsize.setEnabled(false);
+		grid = new JCheckBoxMenuItem("Show grid", true);
+		viewMenu.add(grid);
 
 		
 		help = new JMenuItem("Help");
