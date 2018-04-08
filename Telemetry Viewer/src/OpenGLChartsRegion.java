@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -189,7 +190,14 @@ public class OpenGLChartsRegion extends JPanel {
 				columnCount = pixelScaleFactor*getWidth()/tileWidth;
 				rowCount    =  pixelScaleFactor*getHeight()/tileHeight;
 				tilesYoffset = canvasHeight - (tileHeight * rowCount);
-
+				// Draw a grid over the background
+				drawDashedGrid(gl, canvasWidth, canvasHeight, tileWidth, 
+						tileHeight, new Point(0, tilesYoffset), 10, 5 );
+				drawFullGrid(gl, canvasWidth, canvasHeight, tileWidth *defaultChartX , tileHeight*defaultChartY, 
+						new Point(0, tilesYoffset));
+				
+				
+				
 				
 				// if there are no charts, tell the user how to add one
 				List<PositionedChart> charts = Controller.getCharts();
@@ -217,6 +225,7 @@ public class OpenGLChartsRegion extends JPanel {
 					FontUtils.setOffsets(0, 0);
 					FontUtils.drawXaxisText(message, (int) xMessageLeft, (int) yMessageBottom);
 					FontUtils.drawQueuedText(gl, canvasWidth, canvasHeight);
+
 					
 				}
 				
@@ -287,7 +296,9 @@ public class OpenGLChartsRegion extends JPanel {
 				chartToRemoveOnClick = chartToClose;
 				chartToConfigureOnClick = chartToConfigure;
 				
-//				System.out.println(String.format("%2.2fFPS, %2dms", animator.getLastFPS(), animator.getLastFPSPeriod()));
+				
+				// Här är lines, whoop!
+
 				
 			}
 			
@@ -375,8 +386,8 @@ public class OpenGLChartsRegion extends JPanel {
 				if ( (startX == endX) || (startY == endY) ) {
 					x1 = startX;
 					y1 = startY;
-					x2 = (startX == endX) ? endX + defaultChartX : endX;
-					y2 = (startY == endY) ? endY + defaultChartY : endY;
+					x2 = (startX == endX) ? endX + defaultChartX-1 : endX;
+					y2 = (startY == endY) ? endY + defaultChartY-1 : endY;
 					if (!Controller.gridRegionAvailable(x1, y1, x2, y2)) {
 						startX = startY = -1;
 						endX   = endY   = -1;
@@ -720,6 +731,82 @@ public class OpenGLChartsRegion extends JPanel {
 	public static void setDefaultChartY(int a) {
 		defaultChartY = a;
 	}
+	
+	public void drawFullGrid(GL2 gl, int width, int height, int xSpacing, int ySpacing, 
+			Point start) {
+		
+		// Check indexing
+		int numberOfVerticalLines = width / defaultChartX;
+		int numberOfHorizontalLines = height / defaultChartY;
+		float colorRed = 0.00f;
+		float colorGreen = 0.00f;
+		float colorBlue = 0.00f;
+		
+		for (int i = 0; i <= numberOfVerticalLines; i ++) {
+			drawFullVerticalLine(gl, new Point(i*xSpacing + start.x, start.y), height, colorRed, colorGreen, colorBlue);
+		}
+		for (int i = 0; i <= numberOfHorizontalLines; i ++) {
+			drawFullHorizontalLine(gl, new Point(start.x, i*ySpacing + start.y), width, colorRed, colorGreen, colorBlue);
+		}
+		
+	}
+	
+	
+	
+	public void drawDashedGrid(GL2 gl, int width, int height, int xSpacing, int ySpacing, 
+													Point start, int gap, int lineLength) {
+		int numberOfVerticalLines = width / xSpacing;
+		int numberOfHorizontalLines = height / ySpacing;
+		float colorRed = 0.02f;
+		float colorGreen = 0.02f;
+		float colorBlue = 0.02f;
+		
+		for (int i = 0; i <= numberOfVerticalLines; i ++) {
+			drawDashedVerticalLine(gl, new Point(i*xSpacing + start.x, start.y), height, gap, lineLength, colorRed, colorGreen, colorBlue);
+		}
+		for (int i = 0; i <= numberOfHorizontalLines; i ++) {
+			drawDashedHorizontalLine(gl, new Point(start.x, i*ySpacing + start.y), width, gap, lineLength, colorRed, colorGreen, colorBlue);
+		}
+				
+	}
+	
+	public void drawDashedVerticalLine(GL2 gl, Point start, int length, 
+												int gap, int linelength, float colorRed,
+												float colorGreen, float colorBlue) {
+		int numberOfDashedLines = length / (linelength + gap);
+		for (int i = 0; i <= numberOfDashedLines; i ++) {
+			Point starttmp = new Point(start.x, start.y + i*(linelength + gap));
+			drawFullVerticalLine(gl, starttmp, linelength, colorRed, colorGreen, colorBlue);
+		}	
+	}
+	
+	public void drawDashedHorizontalLine(GL2 gl, Point start, int length, 
+											int gap, int linelength, float colorRed,
+											float colorGreen, float colorBlue) {
+		int numberOfDashedLines = length / (linelength + gap); 
+		for (int i = 0; i <= numberOfDashedLines; i ++) {
+		Point starttmp = new Point(start.x + i*(linelength + gap), start.y );
+		drawFullHorizontalLine(gl, starttmp, linelength, colorRed, colorGreen, colorBlue);
+		}	
+	}
+	
+	public void drawFullVerticalLine(GL2 gl, Point start, int length,
+			float colorRed, float colorGreen, float colorBlue) {
+		gl.glBegin(GL2.GL_LINES);
+		gl.glColor3f(0.0f, 0.0f, 0.0f);
+		gl.glVertex2f(start.x, start.y);
+		gl.glVertex2f(start.x, start.y + length);
+		gl.glEnd();
+	}
+	public void drawFullHorizontalLine(GL2 gl, Point start, int length,
+					float colorRed, float colorGreen, float colorBlue) {
+		gl.glBegin(GL2.GL_LINES);
+		gl.glColor3f(0.0f, 0.0f, 0.0f);
+		gl.glVertex2f(start.x, start.y);
+		gl.glVertex2f(start.x + length, start.y);
+		gl.glEnd();
+	}
+	
 	
 	
 }
