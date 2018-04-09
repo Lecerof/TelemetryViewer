@@ -297,10 +297,6 @@ public class OpenGLChartsRegion extends JPanel {
 				chartToRemoveOnClick = chartToClose;
 				chartToConfigureOnClick = chartToConfigure;
 				
-				
-				// Här är lines, whoop!
-
-				
 			}
 			
 			@Override public void dispose(GLAutoDrawable drawable) {
@@ -747,7 +743,7 @@ public class OpenGLChartsRegion extends JPanel {
 			drawFullVerticalLine(gl, new Point(i*xSpacing + start.x, start.y), height, colorRed, colorGreen, colorBlue);
 		}
 		for (int i = 0; i <= numberOfHorizontalLines; i ++) {
-			drawFullHorizontalLine(gl, new Point(start.x, i*ySpacing + start.y), width, colorRed, colorGreen, colorBlue);
+			drawFullHorizontalLine(gl, new Point(start.x, height - i*ySpacing), width, colorRed, colorGreen, colorBlue);
 		}
 		
 	}
