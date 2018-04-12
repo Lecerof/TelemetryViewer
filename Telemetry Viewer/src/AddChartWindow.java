@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
@@ -36,9 +37,10 @@ public class AddChartWindow extends JDialog {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel windowContents = new JPanel();
+		JScrollPane windowContentsScroll = new JScrollPane(windowContents);
 		windowContents.setBorder(new EmptyBorder(10, 10, 10, 10));
 		windowContents.setLayout(new BoxLayout(windowContents, BoxLayout.Y_AXIS));
-		add(windowContents);
+		add(windowContentsScroll);
 		
 		JComboBox<String> chartTypeCombobox = new JComboBox<String>(Controller.getChartTypes());
 		
@@ -87,7 +89,7 @@ public class AddChartWindow extends JDialog {
 				
 		});
 
-		setResizable(false);
+		setResizable(true);
 		chartTypeCombobox.getActionListeners()[0].actionPerformed(null);
 		
 		setLocationRelativeTo(parentWindow);
