@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
-public class WidgetDataset extends JScrollPane {
+public class WidgetDataset extends JPanel {
 	
 	JComboBox<Dataset> combobox;
 	Consumer<Dataset[]> handler;

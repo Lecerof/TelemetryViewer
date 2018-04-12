@@ -762,7 +762,7 @@ public class OpenGLChartsRegion extends JPanel {
 			drawDashedVerticalLine(gl, new Point(i*xSpacing + start.x, start.y), height, gap, lineLength, colorRed, colorGreen, colorBlue);
 		}
 		for (int i = 0; i <= numberOfHorizontalLines; i ++) {
-			drawDashedHorizontalLine(gl, new Point(start.x, i*ySpacing + start.y), width, gap, lineLength, colorRed, colorGreen, colorBlue);
+			drawDashedHorizontalLine(gl, new Point(start.x, height - i*ySpacing), width, gap, lineLength, colorRed, colorGreen, colorBlue);
 		}
 				
 	}
@@ -799,8 +799,8 @@ public class OpenGLChartsRegion extends JPanel {
 					float colorRed, float colorGreen, float colorBlue) {
 		gl.glBegin(GL2.GL_LINES);
 		gl.glColor3f(0.0f, 0.0f, 0.0f);
-		gl.glVertex2f(start.x, start.y);
-		gl.glVertex2f(start.x + length, start.y);
+		gl.glVertex2f(start.x, start.y+1);
+		gl.glVertex2f(start.x + length, start.y+1);
 		gl.glEnd();
 	}
 	
