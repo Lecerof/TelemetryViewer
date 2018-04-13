@@ -71,9 +71,7 @@ public class AddChartWindow extends JDialog {
 			// create the chart and show it's widgets
 			chart = Controller.createAndAddChart(chartTypeCombobox.getSelectedItem().toString(), x1, y1, x2, y2);
 			for(JPanel widget : chart.getWidgets()) {
-				
 				windowContents.add(widget != null ? widget : Box.createVerticalStrut(10));
-				windowContents.add(Box.createVerticalStrut(10));
 				
 			}
 			
