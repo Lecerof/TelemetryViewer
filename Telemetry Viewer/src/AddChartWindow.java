@@ -1,4 +1,6 @@
 import java.awt.GridLayout;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -38,6 +40,7 @@ public class AddChartWindow extends JDialog {
 		
 		JPanel windowContents = new JPanel();
 		JScrollPane windowContentsScroll = new JScrollPane(windowContents);
+		windowContentsScroll.setBorder(BorderFactory.createEmptyBorder());
 		windowContents.setBorder(new EmptyBorder(10, 10, 10, 10));
 		windowContents.setLayout(new BoxLayout(windowContents, BoxLayout.Y_AXIS));
 		add(windowContentsScroll);
@@ -66,7 +69,7 @@ public class AddChartWindow extends JDialog {
 				Controller.removeChart(chart);
 			windowContents.removeAll();
 			windowContents.add(chartTypePanel);
-			windowContents.add(Box.createVerticalStrut(40));
+			windowContents.add(Box.createVerticalStrut(20));
 			
 			// create the chart and show it's widgets
 			chart = Controller.createAndAddChart(chartTypeCombobox.getSelectedItem().toString(), x1, y1, x2, y2);

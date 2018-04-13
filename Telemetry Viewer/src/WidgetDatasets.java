@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -34,6 +35,7 @@ public class WidgetDatasets extends JPanel {
 		setPreferredSize(new Dimension(150, 150));
 		JScrollPane checkBoxScrollable = new JScrollPane(checkBoxPanel);
 		setLayout(new GridLayout(1, 2, 10, 10));
+		checkBoxScrollable.setBorder(BorderFactory.createEmptyBorder());
 		add(new JLabel("Datasets: "));
 		
 		for(int i = 0; i < datasets.length; i++) {
